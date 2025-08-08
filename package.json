@@ -1,5 +1,5 @@
 {
-  "name": "@amarastéapp-xxv-prototipo-final-1",
+  "name": "amarasteapp-xxv",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -21,3 +21,4 @@
     "vite": "^6.2.0"
   }
 }
+
