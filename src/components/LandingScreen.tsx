@@ -1,4 +1,5 @@
 import React from 'react';
+import LandingScreen from "./components/landingScreen";
 
 interface LandingScreenProps {
   onAccess: () => void;
