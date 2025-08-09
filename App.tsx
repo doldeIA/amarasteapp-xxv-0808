@@ -1,22 +1,24 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI, Chat } from '@google/genai';
-import LandingScreen from './components/LandingScreen';
-import PdfViewerScreen from './components/PdfViewerScreen';
-import DownloadsScreen from './components/DownloadsScreen';
-import ChatWidget from './components/ChatWidget';
-import ChatModal, { Message } from './components/ChatModal';
-import Header from './components/Header';
-import IntegratingLoader from './components/IntegratingLoader';
-import BookerScreen from './components/BookerScreen';
-import EcossistemaPage from './components/EcossistemaPage';
-import SoundCloudPlayer from './components/SoundCloudPlayer';
-import SignUpModal from './components/SignUpModal';
-import RevolucaoPage from './components/RevolucaoPage';
-import ProdutosLoginPage from './components/ProdutosLoginPage';
-import AdminPanel from './components/AdminPanel';
-import AdminLoginModal from './components/AdminLoginModal';
-import AdminHomePage from './components/AdminHomePage';
+
+// IMPORTS CORRIGIDOS - caminhos absolutos relativos ao root do repo
+import LandingScreen from './src/components/LandingScreen';
+import PdfViewerScreen from './src/components/PdfViewerScreen';
+import DownloadsScreen from './src/components/DownloadsScreen';
+import ChatWidget from './src/components/ChatWidget';
+import ChatModal, { Message } from './src/components/ChatModal';
+import Header from './src/components/Header';
+import IntegratingLoader from './src/components/IntegratingLoader';
+import BookerScreen from './src/components/BookerScreen';
+import EcossistemaPage from './src/components/EcossistemaPage';
+import SoundCloudPlayer from './src/components/SoundCloudPlayer';
+import SignUpModal from './src/components/SignUpModal';
+import RevolucaoPage from './src/components/RevolucaoPage';
+import ProdutosLoginPage from './src/components/ProdutosLoginPage';
+import AdminPanel from './src/components/AdminPanel';
+import AdminLoginModal from './src/components/AdminLoginModal';
+import AdminHomePage from './src/components/AdminHomePage';
+
 
 const PDF_PATH = "/home.pdf";
 const BOOKER_PDF_PATH = "/abracadabra.pdf";
