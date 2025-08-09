@@ -1,101 +1,108 @@
-import React from "react";
+// src/components/DownloadsScreen.tsx
+import React, { useState } from "react";
 
-const DownloadsScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
-  return (
-    <div className="p-6 bg-black min-h-screen text-white">
-      <button onClick={() => onBack?.()} className="mb-4">Voltar</button>
-      <h2>Downloads (stub)</h2>
-    </div>
-  );
+interface DownloadsScreenProps {
+  onBack?: () => void;
+}
+
+type DownloadItem = {
+  id: string;
+  label: string;
+  url?: string;
+  description?: string;
 };
-const downloadLinks = [
-  { name: 'Ansiedade', href: 'https://drive.google.com/file/d/10oyLOfgpIZjJJm9asNfvZ2Er5PcwM_X0/view?usp=sharing' },
-  { name: 'Magical XXV', href: 'https://drive.google.com/file/d/14828uO75FMyIAILgHslnq_ugg2N6aste/view?usp=sharing' },
-  { name: 'Jogos Psíquicos', href: 'https://drive.google.com/file/d/1jV9pAukVM5atMphA0y9C7MO2ZdQG6gQA/view?usp=sharing' },
-  { name: 'Sobrexistir XXV', href: 'https://drive.google.com/file/d/1nfM_3O6svUcWgb6skF__O0-fLCFA8dAN/view?usp=sharing' },
-  { name: 'Possibilidades', href: 'https://drive.google.com/file/d/1U95O5TRI4vCc5E0vvl8QMI8bT7I9Ve4-/view?usp=sharing' },
-  { name: 'Explicar', href: 'https://drive.google.com/file/d/1DUUwZfKWeasKg4k1tsM-SSgq5ZLTH9p-/view?usp=sharing' },
+
+const downloadsList: DownloadItem[] = [
+  { id: "home", label: "Manual / Home PDF", url: "/home.pdf", description: "Conteúdo principal do projeto" },
+  { id: "booker", label: "Booker (Abracadabra)", url: "/abracadabra.pdf", description: "Material do booker" },
+  // adicione outros itens caso precise
 ];
 
 const DownloadsScreen: React.FC<DownloadsScreenProps> = ({ onBack }) => {
   const [flashingButton, setFlashingButton] = useState<string | null>(null);
   const [showBackChoice, setShowBackChoice] = useState(false);
 
-  const handleDownloadClick = (e: React.MouseEvent<HTMLAnchorElement>, linkName: string, linkHref: string) => {
-    e.preventDefault();
-    if (flashingButton) return;
+  const handleDownloadClick = (item: DownloadItem) => {
+    setFlashingButton(item.id);
+    // efeito visual temporário: remove o flash após 700ms
+    setTimeout(() => setFlashingButton(null), 700);
 
-    setFlashingButton(linkName);
-
-    setTimeout(() => {
-      window.open(linkHref, '_blank', 'rel="noopener noreferrer"');
-    }, 450);
-
-    setTimeout(() => {
-      setFlashingButton(null);
-    }, 500);
+    if (item.url) {
+      // abre em nova aba para evitar problemas CORS no viewer do app
+      window.open(item.url, "_blank", "noopener");
+    } else {
+      alert("Arquivo não disponível.");
+    }
   };
 
-  if (showBackChoice) {
-    return (
-      <div className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4 animate-swoop-in">
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/30 shadow-lg p-6 w-full max-w-md">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+  return (
+    <div className="min-h-screen p-6 bg-black text-white">
+      <header className="mb-6 flex items-center justify-between">
+        <h2 className="text-2xl font-bold">Downloads</h2>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowBackChoice(prev => !prev)}
+            className="px-3 py-2 rounded bg-white/10 hover:bg-white/20 transition"
+          >
+            Voltar
+          </button>
+        </div>
+      </header>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        {downloadsList.map(item => (
+          <div
+            key={item.id}
+            className={`p-4 rounded-lg border border-white/10 bg-white/2 backdrop-blur-sm transition transform ${
+              flashingButton === item.id ? "scale-98" : "scale-100"
+            }`}
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="text-lg font-semibold">{item.label}</h3>
+                {item.description && <p className="text-sm text-white/70 mt-1">{item.description}</p>}
+              </div>
+
+              <div className="ml-4 flex flex-col items-end gap-2">
+                <button
+                  onClick={() => handleDownloadClick(item)}
+                  className={`px-3 py-2 rounded neon-white-button text-sm font-bold transition active:scale-95 ${
+                    flashingButton === item.id ? "animate-pulse" : ""
+                  }`}
+                  aria-label={`Baixar ${item.label}`}
+                >
+                  Baixar
+                </button>
+                {item.url && (
+                  <a href={item.url} target="_blank" rel="noreferrer" className="text-xs underline text-white/80">
+                    Abrir
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {showBackChoice && (
+        <div className="mt-6">
+          <p className="text-sm text-white/70">Escolher para onde voltar:</p>
+          <div className="mt-2 flex gap-2">
             <button
-              onClick={onBack}
-              className="w-full md:w-2/5 bg-transparent text-white text-xl px-4 py-2 rounded-lg ring-1 ring-white/50 hover:ring-white/80 transition hover:shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+              onClick={() => onBack?.()}
+              className="px-4 py-2 rounded bg-gold text-black font-medium"
             >
-              X
+              Página Principal
             </button>
             <button
-              onClick={onBack}
-              className="w-full md:w-2/5 bg-transparent text-white text-xl px-4 py-2 rounded-lg ring-1 ring-white/50 hover:ring-white/80 transition hover:shadow-[0_0_15px_rgba(255,255,255,0.4)]"
+              onClick={() => setShowBackChoice(false)}
+              className="px-4 py-2 rounded border border-white/20"
             >
-              Y
+              Cancelar
             </button>
           </div>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full min-h-screen pt-32 pb-12 bg-red-white-wide-stripes flex flex-col items-center justify-center animate-swoop-in">
-      <div className="w-full max-w-5xl mx-auto flex flex-col items-center p-4">
-        
-        <div className="downloads-header max-w-2xl mx-auto mb-6">
-            <p className="neon-heading-glow text-center text-white text-base md:text-lg lg:text-xl">
-                Aqui você encontra faixas exclusivas em alta qualidade (.WAV), 
-                livres da compressão de –14 LUFS imposta pelas plataformas de streaming. 
-                Sinta a música em sua forma mais pura e potente
-            </p>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 w-full">
-          {downloadLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => handleDownloadClick(e, link.name, link.href)}
-              className={`neon-white-button font-bold tracking-wider text-lg text-center px-6 py-5 rounded-xl neon-float ${
-                flashingButton === link.name ? 'green-flash' : ''
-              }`}
-              aria-label={`Download ${link.name}`}
-            >
-              {link.name}
-            </a>
-          ))}
-        </div>
-        
-        <button 
-          onClick={() => setShowBackChoice(true)}
-          className="mt-16 bg-black/60 border-2 border-white/50 backdrop-blur-sm text-white font-semibold px-12 py-3 rounded-lg shadow-lg transition-all duration-300 hover:bg-white/20 hover:border-white hover:scale-105"
-        >
-          Voltar
-        </button>
-      </div>
+      )}
     </div>
   );
 };
