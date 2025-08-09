@@ -8,10 +8,7 @@ interface LandingScreenProps {
 const LandingScreen: React.FC<LandingScreenProps> = ({ onAccess }) => {
   return (
     <div className="h-full w-full flex flex-col items-center justify-center p-4 bg-transparent transition-opacity duration-500 overflow-hidden relative">
-      {/* Spacer to push content to the bottom */}
       <div className="flex-grow" />
-
-      {/* Content at the bottom */}
       <div className="w-full max-w-md z-10 mb-4">
         <button
           onClick={() => onAccess?.()}
