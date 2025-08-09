@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React from "react";
 
-interface DownloadsScreenProps {
-  onBack: () => void;
-}
-
+const DownloadsScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
+  return (
+    <div className="p-6 bg-black min-h-screen text-white">
+      <button onClick={() => onBack?.()} className="mb-4">Voltar</button>
+      <h2>Downloads (stub)</h2>
+    </div>
+  );
+};
 const downloadLinks = [
   { name: 'Ansiedade', href: 'https://drive.google.com/file/d/10oyLOfgpIZjJJm9asNfvZ2Er5PcwM_X0/view?usp=sharing' },
   { name: 'Magical XXV', href: 'https://drive.google.com/file/d/14828uO75FMyIAILgHslnq_ugg2N6aste/view?usp=sharing' },
