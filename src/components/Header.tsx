@@ -187,7 +187,8 @@ const Header: React.FC<HeaderProps> = ({ activeScreen, onNavigateDownloads, onNa
                             )}
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none ${menuIconColorClass} transition-all duration-300 hover:text-accent hover:drop-shadow-[0_0_5px_theme(colors.accent)]`}
+                                className={`inline-flex items-center justify-center p-2 rounded-md focus:outline-none ${menuIconColorClass} transition-all duration-300 hover:text-accent hover:drop-shadow-[0_0_5px_hover:drop-shadow-accent
+theme(colors.accent)]`}
                                 aria-controls="dropdown-menu"
                                 aria-expanded={isOpen}
                             >
