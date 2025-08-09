@@ -2,9 +2,9 @@ import React from 'react';
 import PdfViewerScreen from './PdfViewerScreen';
 import SparkleOverlay from './SparkleOverlay';
 import { Screen } from '../App';
+import React from "react";
+const EcossistemaPage: React.FC<{ onNavigate?: (s: any) => void }> = () => <div className="p-6">Ecossistema (stub)</div>;
 
-interface EcossistemaPageProps {
-  onNavigate: (screen: Screen) => void;
 }
 
 const EcossistemaPage: React.FC<EcossistemaPageProps> = ({ onNavigate }) => {
