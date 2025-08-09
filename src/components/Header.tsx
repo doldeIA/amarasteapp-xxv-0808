@@ -10,6 +10,20 @@ import PhoneIcon from './icons/PhoneIcon';
 import LinkedInIcon from './icons/LinkedInIcon';
 import UserGroupIcon from './icons/UserGroupIcon';
 import { Screen } from '../App';
+import React from "react";
+
+const Header: React.FC<{ activeScreen?: string; onNavigateHome?: () => void; onNavigateDownloads?: () => void; onOpenSignUpModal?: () => void }> = ({ onNavigateHome }) => {
+  return (
+    <header className="w-full p-4 bg-black text-white">
+      <div className="max-w-5xl mx-auto flex items-center justify-between">
+        <div className="font-bold">Amarasté</div>
+        <div className="space-x-3">
+          <button onClick={() => onNavigateHome?.()}>Home</button>
+        </div>
+      </div>
+    </header>
+  );
+};
 
 interface HeaderProps {
     activeScreen: Screen;
