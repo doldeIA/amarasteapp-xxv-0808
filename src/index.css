@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* basic tweaks */
+:root {
+  --primary: #A13500;
+  --bg: #0b0b0b;
+}
+
+html,body,#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: var(--bg);
+  color: #fff;
+}
+
+/* small helpers used by components */
+.bg-primary { background: var(--primary); }
+.neon-pulse { box-shadow: 0 0 12px rgba(255,255,255,0.06); }
