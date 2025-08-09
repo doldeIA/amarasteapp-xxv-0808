@@ -1,41 +1,51 @@
 // vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
-// Detecta ambiente de deploy (Vercel, Netlify, etc.)
-const isProduction = process.env.NODE_ENV === 'production'
+export default defineConfig(({ mode }) => {
+  // carrega variáveis do .env.* conforme o mode
+  const env = loadEnv(mode, process.cwd(), '');
 
-export default defineConfig({
-  plugins: [react()],
-  
-  // Define a base correta para rotas
-  base: isProduction ? '/' : '/',
+  const isProduction = mode === 'production';
 
-  // Resolve paths absolutos para evitar erros de import no deploy
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+  return {
+    plugins: [react()],
+    base: isProduction ? '/' : '/',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
     },
-  },
 
-  // Otimizações de build para produção
-  build: {
-    outDir: 'dist',           // Pasta final do build
-    sourcemap: false,         // Desativa mapas para diminuir peso
-    chunkSizeWarningLimit: 1000, // Limite antes de dar warning
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ['react', 'react-dom'],
+    // se seu código usar process.env.API_KEY em algum lugar,
+    // isso garante um fallback seguro para build.
+    define: {
+      'process.env.API_KEY': JSON.stringify(env.VITE_GEMINI_API_KEY ?? ''),
+      'process.env.NODE_ENV': JSON.stringify(mode),
+    },
+
+    build: {
+      outDir: 'dist',
+      sourcemap: false,
+      target: 'es2020',
+      chunkSizeWarningLimit: 2000,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react')) return 'vendor-react';
+              return 'vendor';
+            }
+          },
         },
       },
     },
-  },
 
-  // Para evitar problemas no Vercel com server-side rendering
-  server: {
-    host: true,
-    port: 5173,
-  },
-})
+    server: {
+      host: true,
+      port: 5173,
+      strictPort: false,
+    },
+  };
+});
