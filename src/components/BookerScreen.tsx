@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import PdfViewerScreen from './PdfViewerScreen';
 import BookerLoader from './BookerLoader';
+import React from "react";
+const BookerScreen: React.FC = () => <div className="p-6">Booker (stub)</div>;
+export default BookerScreen;
 
 const BookerScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
